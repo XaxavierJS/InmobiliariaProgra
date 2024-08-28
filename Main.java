@@ -1,8 +1,12 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
-        List<Departamento> listaDeDepartamentos = new ArrayList<>();
-        List<Arrendatario> listaDeArrendatarios = new ArrayList<>();
-        List<Proyecto> listaDeProyectos = new ArrayList<>();
+        List<Departamento> listaDepartamentos = new ArrayList<>();
+        List<Arrendatario> listaArrendatarios = new ArrayList<>();
+        List<Proyecto> listaProyectos = new ArrayList<>();
 
         // Menú principal
         while (true) {
