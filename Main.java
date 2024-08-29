@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
         List<Departamento> listaDepartamentos = new ArrayList<>();
         List<Arrendatario> listaArrendatarios = new ArrayList<>();
         List<Proyecto> listaProyectos = new ArrayList<>();
@@ -11,20 +13,21 @@ public class Main {
         // Menú principal
         while (true) {
             mostrarMenu();
-            int opcion = leerOpcionUsuario();
+            int opcion = leerOpcionUsuario(scanner);
 
             switch (opcion) {
                 case 1:
-                    gestionarDepartamentos(listaDepartamentos);
+                    gestionarDepartamentos(scanner, listaDepartamentos);
                     break;
                 case 2:
-                    gestionarArrendatarios(listaArrendatarios, listaDepartamentos);
+                    gestionarArrendatarios(scanner, listaArrendatarios, listaDepartamentos);
                     break;
                 case 3:
-                    gestionarProyectos(listaProyectos, listaDepartamentos);
+                    gestionarProyectos(scanner, listaProyectos, listaDepartamentos);
                     break;
                 case 0:
                     System.out.println("Saliendo del sistema...");
+                    scanner.close();
                     return; // Salir del programa
                 default:
                     System.out.println("Opción no válida. Intente nuevamente.");
@@ -49,8 +52,7 @@ public class Main {
         System.out.println("0. Buscar Departamento");
         System.out.print("Seleccione una opción: ");
     }
-    public static void agregarDepartamento(List<Departamento> listaDepartamentos){
-        Scanner scanner = new Scanner(System.in);
+    public static void agregarDepartamento(Scanner scanner, List<Departamento> listaDepartamentos){
         System.out.println("Ingrese el ID del departamento:");
         String ID = scanner.nextLine();
         System.out.println("Ingrese el nombre del departamento:");
@@ -79,21 +81,43 @@ public class Main {
         System.out.println("¡Departamento agregado exitosamente!");
     }
 
-    public static int leerOpcionUsuario() {
-        Scanner scanner = new Scanner(System.in);
+    public static void eliminarDepartamento(Scanner scanner, List<Departamento> listaDepartamentos){
+        System.out.println("Ingrese el ID del departamento a eliminar: ");
+        String IDbuscado = scanner.nextLine();
+
+        Departamento departamentoAEliminar = null;
+
+        for(Departamento departamento : listaDepartamentos){
+            if (departamento.getID().equals(IDbuscado)){
+                departamentoAEliminar = departamento;
+                break;
+            }
+        }
+
+        if (departamentoAEliminar != null){
+            listaDepartamentos.remove(departamentoAEliminar);
+            System.out.println("¡Departamento eliminado exitosamente!");
+        }
+        else{
+            System.out.println("No se encontró el departamento con ID " + IDbuscado + ".");
+        }
+    }
+
+    public static int leerOpcionUsuario(Scanner scanner) {
         return scanner.nextInt();
     }
 
-    public static void gestionarDepartamentos(List<Departamento> listaDepartamentos) {
+    public static void gestionarDepartamentos(Scanner scanner, List<Departamento> listaDepartamentos) {
         while (true) {
             mostrarMenuGestionDepartamentos();
-            int opcion = leerOpcionUsuario();
+            int opcion = leerOpcionUsuario(scanner);
 
             switch (opcion) {
                 case 1:
-                    agregarDepartamento(listaDepartamentos);
+                    agregarDepartamento(scanner, listaDepartamentos);
                     break;
                 case 2:
+                    eliminarDepartamento(scanner, listaDepartamentos);
                     break;
                 case 3:
                     break;
@@ -106,10 +130,10 @@ public class Main {
         }
     }
 
-    public static void gestionarArrendatarios(List<Arrendatario> listaDeArrendatarios, List<Departamento> listaDeDepartamentos) {
+    public static void gestionarArrendatarios(Scanner scanner, List<Arrendatario> listaDeArrendatarios, List<Departamento> listaDeDepartamentos) {
 
     }
 
-    public static void gestionarProyectos(List<Proyecto> listaDeProyectos, List<Departamento> listaDeDepartamentos) {
+    public static void gestionarProyectos(Scanner scanner, List<Proyecto> listaDeProyectos, List<Departamento> listaDeDepartamentos) {
     }
 }
