@@ -76,6 +76,7 @@ public class Main {
                     verificarDisponibilidad(scanner, listaDepartamentos);
                     break;
                 case 4:
+                    gestionarBuscarDepartamento(scanner, listaDepartamentos);
                     break;
                 case 0:
                     System.out.println("Saliendo del sistema...");
@@ -103,11 +104,11 @@ public class Main {
         System.out.println("Ingrese el tamaño del departamento (en m2):");
         int tamaño = scanner.nextInt();
         scanner.nextLine();
+        System.out.println("Ingrese el número del departamento:");
+        String numeroDepa = scanner.nextLine();
         System.out.println("¿Está disponible? (true/false):");
         boolean estado = scanner.nextBoolean();
         scanner.nextLine();
-        System.out.println("Ingrese el número del departamento:");
-        String numeroDepa = scanner.nextLine();
 
         Departamento nuevoDepartamento = new Departamento(nombre, ID, precio, null, null, estado, numeroDepa, piezas, baños, tamaño);
         listaDepartamentos.add(nuevoDepartamento);
@@ -159,6 +160,111 @@ public class Main {
         }
         else{
             System.out.println("No se encontró el departamento con ID: " + IDbuscado + ".");
+        }
+    }
+    public static void mostrarMenuBuscarDepartamento(){
+        System.out.println("=== Menú Buscar Departamentos ===");
+        System.out.println("1. Buscar por ID");
+        System.out.println("2. Buscar por Nombre");
+        System.out.println("3. Buscar por Estado");
+        System.out.println("0. Salir");
+        System.out.print("Seleccione una opción: ");
+    }
+    public static void gestionarBuscarDepartamento(Scanner scanner, List<Departamento> listaDepartamentos){
+        while (true) {
+            mostrarMenuBuscarDepartamento();
+            int opcion = leerOpcionUsuario(scanner);
+
+            switch (opcion) {
+                case 1:
+                    buscarDepartamentoPorID(scanner, listaDepartamentos);
+                    break;
+                case 2:
+                    buscarDepartamentoPorNombre(scanner, listaDepartamentos);
+                    break;
+                case 3:
+                    buscarDepartamentoPorEstado(scanner, listaDepartamentos);
+                    break;
+                case 0:
+                    System.out.println("Saliendo del sistema...");
+                    return; // Salir del programa
+                default:
+                    System.out.println("Opción no válida. Intente nuevamente.");
+            }
+        }
+    }
+
+    public static void buscarDepartamentoPorID(Scanner scanner, List<Departamento> listaDepartamentos){
+        System.out.println("Ingrese el ID del departamento a buscar:");
+        String IDbuscado = scanner.nextLine();
+        boolean encontrado = false;
+
+        for (Departamento departamento : listaDepartamentos){
+            if (departamento.getID().equals(IDbuscado)) {
+                encontrado = true;
+                System.out.println("Información del departamento:");
+                System.out.println("Nombre: " + departamento.getNombre() +
+                        " || Precio: " + departamento.getPrecio() +
+                        " || Numero: " + departamento.getNumeroDepa() +
+                        " || Baños: " + departamento.getBaños() +
+                        " || Piezas: " + departamento.getPiezas() +
+                        " || Tamaño: " + departamento.getTamaño() +
+                        " || Estado: " + departamento.getEstado());
+                System.out.println("----------------------------------");
+                break;
+            }
+        }
+        if (!encontrado){
+            System.out.println("No se encontró el departamento con ID: " + IDbuscado + ".");
+        }
+    }
+
+    public static void buscarDepartamentoPorNombre(Scanner scanner, List<Departamento> listaDepartamentos){
+        System.out.println("Ingrese el nombre del departamento a buscar:");
+        String nombreBuscado = scanner.nextLine();
+        boolean encontrado = false;
+
+        for (Departamento departamento : listaDepartamentos){
+            if (departamento.getNombre().equals(nombreBuscado)) {
+                encontrado = true;
+                System.out.println("Información del departamento:");
+                System.out.println("ID: " + departamento.getID() +
+                        " || Precio: " + departamento.getPrecio() +
+                        " || Numero: " + departamento.getNumeroDepa() +
+                        " || Baños: " + departamento.getBaños() +
+                        " || Piezas: " + departamento.getPiezas() +
+                        " || Tamaño: " + departamento.getTamaño() +
+                        " || Estado: " + departamento.getEstado());
+                System.out.println("----------------------------------");
+            }
+        }
+        if (!encontrado){
+            System.out.println("No se encontraron departamentos con nombre: " + nombreBuscado + ".");
+        }
+    }
+
+    public static void buscarDepartamentoPorEstado(Scanner scanner, List<Departamento> listaDepartamentos){
+        System.out.println("Ingrese el estado (true/false) del departamento a buscar:");
+        boolean estadoBuscado = scanner.nextBoolean();
+        scanner.nextLine();
+        boolean encontrado = false;
+
+        for (Departamento departamento : listaDepartamentos){
+            if (departamento.getEstado() == estadoBuscado) {
+                encontrado = true;
+                System.out.println("Información del departamento:");
+                System.out.println("ID: " + departamento.getID() +
+                        " || Nombre: " + departamento.getNombre() +
+                        " || Precio: " + departamento.getPrecio() +
+                        " || Numero: " + departamento.getNumeroDepa() +
+                        " || Baños: " + departamento.getBaños() +
+                        " || Piezas: " + departamento.getPiezas() +
+                        " || Tamaño: " + departamento.getTamaño());
+                System.out.println("----------------------------------");
+            }
+        }
+        if (!encontrado){
+            System.out.println("No se encontraron departamentos con estado: " + estadoBuscado + ".");
         }
     }
 
