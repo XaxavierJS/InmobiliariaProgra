@@ -35,6 +35,12 @@ public class Main {
         }
     }
 
+    public static int leerOpcionUsuario(Scanner scanner) {
+        int opcion = scanner.nextInt();
+        scanner.nextLine();
+        return opcion;
+    }
+
     public static void mostrarMenu() {
         System.out.println("=== Menú Principal ===");
         System.out.println("1. Gestionar Departamentos");
@@ -49,9 +55,37 @@ public class Main {
         System.out.println("1. Agregar Departamento");
         System.out.println("2. Eliminar Departamento");
         System.out.println("3. Verificar Disponibilidad");
-        System.out.println("0. Buscar Departamento");
+        System.out.println("4. Buscar Departamento");
+        System.out.println("0. Salir");
         System.out.print("Seleccione una opción: ");
     }
+
+    public static void gestionarDepartamentos(Scanner scanner, List<Departamento> listaDepartamentos) {
+        while (true) {
+            mostrarMenuGestionDepartamentos();
+            int opcion = leerOpcionUsuario(scanner);
+
+            switch (opcion) {
+                case 1:
+                    agregarDepartamento(scanner, listaDepartamentos);
+                    break;
+                case 2:
+                    eliminarDepartamento(scanner, listaDepartamentos);
+                    break;
+                case 3:
+                    verificarDisponibilidad(scanner, listaDepartamentos);
+                    break;
+                case 4:
+                    break;
+                case 0:
+                    System.out.println("Saliendo del sistema...");
+                    return; // Salir del programa
+                default:
+                    System.out.println("Opción no válida. Intente nuevamente.");
+            }
+        }
+    }
+
     public static void agregarDepartamento(Scanner scanner, List<Departamento> listaDepartamentos){
         System.out.println("Ingrese el ID del departamento:");
         String ID = scanner.nextLine();
@@ -99,34 +133,32 @@ public class Main {
             System.out.println("¡Departamento eliminado exitosamente!");
         }
         else{
-            System.out.println("No se encontró el departamento con ID " + IDbuscado + ".");
+            System.out.println("No se encontró el departamento con ID: " + IDbuscado + ".");
         }
     }
 
-    public static int leerOpcionUsuario(Scanner scanner) {
-        return scanner.nextInt();
-    }
+    public static void verificarDisponibilidad(Scanner scanner, List<Departamento> listaDepartamentos){
+        System.out.println("Ingrese el ID del departamento a verificar: ");
+        String IDbuscado = scanner.nextLine();
+        Departamento departamentoAVerficar = null;
 
-    public static void gestionarDepartamentos(Scanner scanner, List<Departamento> listaDepartamentos) {
-        while (true) {
-            mostrarMenuGestionDepartamentos();
-            int opcion = leerOpcionUsuario(scanner);
-
-            switch (opcion) {
-                case 1:
-                    agregarDepartamento(scanner, listaDepartamentos);
-                    break;
-                case 2:
-                    eliminarDepartamento(scanner, listaDepartamentos);
-                    break;
-                case 3:
-                    break;
-                case 0:
-                    System.out.println("Saliendo del sistema...");
-                    return; // Salir del programa
-                default:
-                    System.out.println("Opción no válida. Intente nuevamente.");
+        for (Departamento departamento : listaDepartamentos){
+            if (departamento.getID().equals(IDbuscado)){
+                departamentoAVerficar = departamento;
+                break;
             }
+        }
+
+        if (departamentoAVerficar != null){
+            if (departamentoAVerficar.getEstado()){
+                System.out.println("El departamento con ID: " + IDbuscado + " se encuentra disponible.");
+            }
+            else{
+                System.out.println("El departamento con ID: " + IDbuscado + " NO se encuentra disponible.");
+            }
+        }
+        else{
+            System.out.println("No se encontró el departamento con ID: " + IDbuscado + ".");
         }
     }
 
