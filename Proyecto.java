@@ -9,9 +9,10 @@ public class Proyecto {
     public Proyecto(String nombreProyecto, String ubicacion, List<Departamento> listaDepartamentos) {
         this.nombreProyecto = nombreProyecto;
         this.ubicacion = ubicacion;
-        this.listaDepartamentos = new ArrayList<>();
+        this.listaDepartamentos = new ArrayList<>(listaDepartamentos);
     }
 
+    // Getters y setters
     public String getNombreProyecto() { return nombreProyecto; }
     public void setNombreProyecto(String nombreProyecto) { this.nombreProyecto = nombreProyecto; }
     public String getUbicacion() { return ubicacion; }

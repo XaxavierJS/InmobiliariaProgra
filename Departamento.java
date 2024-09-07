@@ -23,6 +23,7 @@ public class Departamento {
         this.tamaño = tamaño;
     }
 
+    // Getters y setters
     public int getPrecio() { return precio; }
     public void setPrecio(int precio) { this.precio = precio; }
     public String getNombre() { return nombre; }
