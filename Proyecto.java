@@ -13,10 +13,16 @@ public class Proyecto {
     }
 
     // Getters y setters
-    public String getNombreProyecto() { return nombreProyecto; }
-    public void setNombreProyecto(String nombreProyecto) { this.nombreProyecto = nombreProyecto; }
-    public String getUbicacion() { return ubicacion; }
-    public void setUbicacion(String ubicacion) { this.ubicacion = ubicacion; }
-    public List<Departamento> getListaDepartamentos() { return listaDepartamentos; }
-    public void setListaDepartamentos(List<Departamento> listaDepartamentos) { this.listaDepartamentos = listaDepartamentos; }
+    public String getNombreProyecto() {
+        return nombreProyecto; }
+    public void setNombreProyecto(String nombreProyecto) {
+        this.nombreProyecto = nombreProyecto; }
+    public String getUbicacion() {
+        return ubicacion; }
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion; }
+    public List<Departamento> getListaDepartamentos() {
+        return listaDepartamentos; }
+    public void setListaDepartamentos(List<Departamento> listaDepartamentos) {
+        this.listaDepartamentos = listaDepartamentos; }
 }

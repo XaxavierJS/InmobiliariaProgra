@@ -111,9 +111,12 @@ public class Main {
             case 1:
                 System.out.println("Ingrese el ID del departamento:");
                 String ID = scanner.nextLine();
-                Departamento dep = buscarDepartamentoPorID(ID, listaDepartamentos);
+                Departamento dep = buscarDepartamento(ID, listaDepartamentos);
                 if (dep != null) {
-                    System.out.println("Departamento encontrado: " + dep.getNombre());
+                    System.out.println("Departamento con ID: " + dep.getID() + " encontrado.");
+                    System.out.println("Nombre: " + dep.getNombre());
+                    System.out.println("Precio: " + dep.getPrecio());
+                    System.out.println("Estado: " + dep.getEstado());
                 } else {
                     System.out.println("Departamento no encontrado.");
                 }
@@ -121,11 +124,11 @@ public class Main {
             case 2:
                 System.out.println("Ingrese el precio máximo:");
                 int precioMax = leerEntero(scanner, "Ingrese el precio máximo:");
-                List<Departamento> deps = buscarDepartamentoPorPrecio(precioMax, listaDepartamentos);
+                List<Departamento> deps = buscarDepartamento(precioMax, listaDepartamentos);
                 if (!deps.isEmpty()) {
                     System.out.println("Departamentos encontrados:");
                     for (Departamento d : deps) {
-                        System.out.println(d.getNombre() + " - Precio: " + d.getPrecio());
+                        System.out.println("ID: " + d.getID() +" - Nombre: " + d.getNombre() + " - Precio: " + d.getPrecio());
                     }
                 } else {
                     System.out.println("No se encontraron departamentos por debajo de ese precio.");
@@ -136,7 +139,7 @@ public class Main {
         }
     }
 
-    public static List<Departamento> buscarDepartamentoPorPrecio(int precio, List<Departamento> listaDepartamentos) {
+    public static List<Departamento> buscarDepartamento(int precio, List<Departamento> listaDepartamentos) {
         List<Departamento> resultado = new ArrayList<>();
         for (Departamento departamento : listaDepartamentos) {
             if (departamento.getPrecio() <= precio) {
@@ -144,6 +147,15 @@ public class Main {
             }
         }
         return resultado;
+    }
+
+    public static Departamento buscarDepartamento(String ID, List<Departamento> listaDepartamentos) {
+        for (Departamento departamento : listaDepartamentos) {
+            if (departamento.getID().equals(ID)) {
+                return departamento;
+            }
+        }
+        return null; // No encontrado
     }
 
     public static void agregarDepartamento(Scanner scanner, List<Departamento> listaDepartamentos, Map<String, Departamento> mapaDepartamentos) {
@@ -188,9 +200,9 @@ public class Main {
     public static void verificarDisponibilidad(Scanner scanner, List<Departamento> listaDepartamentos) {
         System.out.println("Ingrese el ID del departamento a verificar: ");
         String IDbuscado = scanner.nextLine();
-        Departamento departamentoAVerificar = buscarDepartamentoPorID(IDbuscado, listaDepartamentos);
+        Departamento departamentoAVerificar = buscarDepartamento(IDbuscado, listaDepartamentos);
 
-        if (departamentoAVerificar != null) {
+       if (departamentoAVerificar != null) {
             if (departamentoAVerificar.getEstado()) {
                 System.out.println("El departamento con ID: " + IDbuscado + " está disponible.");
             } else {
@@ -199,15 +211,6 @@ public class Main {
         } else {
             System.out.println("No se encontró el departamento con ID: " + IDbuscado + ".");
         }
-    }
-
-    public static Departamento buscarDepartamentoPorID(String ID, List<Departamento> listaDepartamentos) {
-        for (Departamento departamento : listaDepartamentos) {
-            if (departamento.getID().equals(ID)) {
-                return departamento;
-            }
-        }
-        return null; // No encontrado
     }
 
     public static int leerEntero(Scanner scanner, String mensaje) {
