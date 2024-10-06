@@ -1,5 +1,8 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Departamento {
     private String nombreDepartamento;
     private String codigo;
@@ -13,12 +16,13 @@ public class Departamento {
     private int area;
     private int demanda;
 
-    public Departamento(String nombreDepartamento, String codigo, int precio, Arrendatario arrendatario, Proyecto proyecto, boolean disponible, String numero, int habitaciones, int banos, int area) {
+    private List<Arrendatario> arrendatarios;
+
+    public Departamento(String nombreDepartamento, String codigo, int precio, boolean disponible, String numero, int habitaciones, int banos, int area) {
         this.nombreDepartamento = nombreDepartamento;
         this.codigo = codigo;
         this.precio = precio;
-        this.arrendatario = arrendatario;
-        this.proyecto = proyecto;
+        this.arrendatarios = new ArrayList<>(); // Inicializamos la lista de arrendatarios
         this.disponible = disponible;
         this.numero = numero;
         this.habitaciones = habitaciones;
@@ -136,4 +140,7 @@ public class Departamento {
         this.arrendatario = arrendatario;
     }
 
+    public List<Arrendatario> getArrendatarios() {
+        return arrendatarios;  // Retornar la lista de arrendatarios
+    }
 }

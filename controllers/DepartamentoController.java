@@ -4,7 +4,7 @@ package controllers;
 import models.DepartamentoModel;
 import models.ArrendatarioModel;
 import entities.Departamento;
-import utils.Utils;
+import Utils.Utils;
 
 import java.util.List;
 import java.util.Scanner;
@@ -63,4 +63,5 @@ public class DepartamentoController {
     public List<Departamento> getDepartamentos() {
         return departamentoModel.getListaDepartamentos();
     }
+
 }

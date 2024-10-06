@@ -11,15 +11,8 @@ import java.util.Scanner;
 public class ProyectoModel {
     private List<Proyecto> listaProyectos = new ArrayList<>();
 
-    public void agregarProyecto(Scanner scanner) {
-        System.out.print("Ingrese el nombre del proyecto: ");
-        String nombreProyecto = scanner.nextLine();
-        System.out.print("Ingrese la ubicación del proyecto: ");
-        String ubicacion = scanner.nextLine();
-
-        Proyecto nuevoProyecto = new Proyecto(nombreProyecto, ubicacion);
-        listaProyectos.add(nuevoProyecto);
-
+    public void agregarProyecto(Proyecto proyecto) {
+        listaProyectos.add(proyecto);
         System.out.println("¡Proyecto agregado exitosamente!");
     }
 
@@ -44,6 +37,7 @@ public class ProyectoModel {
 
             if (departamento != null) {
                 proyecto.agregarDepartamento(departamento);
+                departamento.setProyecto(proyecto);
                 System.out.println("¡Departamento agregado al proyecto exitosamente!");
             } else {
                 System.out.println("Departamento no encontrado.");
@@ -52,6 +46,7 @@ public class ProyectoModel {
             System.out.println("Proyecto no encontrado.");
         }
     }
+
 
     public void mostrarDepartamentosDeProyecto(Scanner scanner) {
         System.out.print("Ingrese el nombre del proyecto: ");

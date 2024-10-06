@@ -3,8 +3,8 @@ package controllers;
 
 import models.ProyectoModel;
 import entities.Departamento;
-import utils.Utils;
-
+import Utils.Utils;
+import entities.Proyecto;
 import java.util.List;
 import java.util.Scanner;
 
@@ -28,7 +28,15 @@ public class ProyectoController {
 
             switch (opcion) {
                 case 1:
-                    proyectoModel.agregarProyecto(scanner);
+                    // Solicitar los datos del proyecto
+                    System.out.print("Ingrese el nombre del proyecto: ");
+                    String nombreProyecto = scanner.nextLine();
+                    System.out.print("Ingrese la ubicación del proyecto: ");
+                    String ubicacion = scanner.nextLine();
+
+                    // Crear el proyecto y agregarlo al modelo
+                    Proyecto nuevoProyecto = new Proyecto(nombreProyecto, ubicacion);
+                    proyectoModel.agregarProyecto(nuevoProyecto);
                     break;
                 case 2:
                     proyectoModel.mostrarProyectos();

@@ -2,7 +2,7 @@
 package controllers;
 
 import models.ArrendatarioModel;
-import utils.Utils;
+import Utils.Utils;
 
 import java.util.Scanner;
 

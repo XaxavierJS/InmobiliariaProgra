@@ -3,13 +3,14 @@ package models;
 
 import entities.Arrendatario;
 import entities.Departamento;
-import utils.Utils;
+import Utils.Utils;
 
 import java.util.*;
 
 public class DepartamentoModel {
-    private List<Departamento> listaDepartamentos = new ArrayList<>();
-    private Map<String, Departamento> mapaDepartamentos = new HashMap<>();
+    private final List<Departamento> listaDepartamentos = new ArrayList<>();
+    private final Map<String, Departamento> mapaDepartamentos = new HashMap<>();
+
 
     public void agregarDepartamento(Scanner scanner) {
         System.out.print("Ingrese el ID del departamento: ");
@@ -29,7 +30,7 @@ public class DepartamentoModel {
         String numeroDepa = scanner.nextLine();
         boolean estado = Utils.leerBoolean(scanner, "¿Está disponible? (true/false): ");
 
-        Departamento nuevoDepartamento = new Departamento(nombre, ID, precio, null, null, estado, numeroDepa, piezas, banos, tamano);
+        Departamento nuevoDepartamento = new Departamento(nombre, ID, precio, estado, numeroDepa, piezas, banos, tamano);
         listaDepartamentos.add(nuevoDepartamento);
         mapaDepartamentos.put(ID, nuevoDepartamento);
 
@@ -143,7 +144,7 @@ public class DepartamentoModel {
         if (departamento != null) {
             arrendatarioModel.agregarArrendatario(scanner);
             Arrendatario nuevoArrendatario = arrendatarioModel.getUltimoArrendatario();
-            departamento.agregarArrendatario(nuevoArrendatario);
+            departamento.agregarArrendatario(nuevoArrendatario);  // Agregar arrendatario a la lista
             System.out.println("¡Arrendatario agregado al departamento exitosamente!");
         } else {
             System.out.println("Departamento no encontrado.");
