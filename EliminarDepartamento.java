@@ -45,7 +45,7 @@ public class EliminarDepartamento extends JFrame{
 
     private Departamento buscarDepartamento(String id) {
         for (Departamento d : departamentosList) {
-            if (d.getCodigo().equals(id)) {
+            if (d.getID().equals(id)) {
                 return d;
             }
         }

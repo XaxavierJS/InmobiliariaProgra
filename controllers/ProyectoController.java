@@ -1,11 +1,9 @@
 package controllers;
 
 import models.ProyectoModel;
-import entities.Departamento;
 import entities.Proyecto;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class ProyectoController {
     private ProyectoModel proyectoModel;

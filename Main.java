@@ -6,9 +6,8 @@ import models.DepartamentoModel;
 import models.ProyectoModel;
 import entities.Departamento;
 import entities.Proyecto;
-import entities.Arrendatario;
 import Utils.Utils;
-
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,33 +17,27 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         // Modelos
-        DepartamentoModel departamentoModel = new DepartamentoModel();
-        ArrendatarioModel arrendatarioModel = new ArrendatarioModel();
         ProyectoModel proyectoModel = new ProyectoModel();
+        proyectoModel.cargarProyectosDesdeCSV(); // Cargar proyectos desde el CSV de proyectos
+
+        // Cargar departamentos y asignarlos a los proyectos
+        DepartamentoModel departamentoModel = new DepartamentoModel();
+        departamentoModel.cargarDepartamentosDesdeCSV(proyectoModel.obtenerProyectos());  // Cargar los departamentos pasando los proyectos
+
+        // Cargar arrendatarios y asignarlos a los departamentos
+        ArrendatarioModel arrendatarioModel = new ArrendatarioModel();
+        arrendatarioModel.cargarArrendatariosDesdeCSV(departamentoModel);  // Cargar los arrendatarios
 
         // Controladores
         DepartamentoController departamentoController = new DepartamentoController(departamentoModel, arrendatarioModel);
         ProyectoController proyectoController = new ProyectoController(proyectoModel, departamentoController);
+        ArrendatarioController arrendatarioController = new ArrendatarioController(arrendatarioModel);
 
-        // Datos iniciales - Proyectos y Departamentos
-        Proyecto proyecto1 = new Proyecto("Proyecto Central", "Avenida Principal 123");
-        Proyecto proyecto2 = new Proyecto("Proyecto Los Robles", "Calle Los Robles 456");
+        // Reporte de arrendatarios
+        ReporteArrendatarios reporteArrendatarios = new ReporteArrendatarios();
 
-        // Agregar departamentos a los proyectos
-        Departamento dep1_1 = new Departamento("Depa 101", "D101", 55000, true, "101", 3, 2, 120);
-        Departamento dep1_2 = new Departamento("Depa 102", "D102", 60000, true, "102", 4, 3, 150);
-        proyecto1.agregarDepartamento(dep1_1);
-        proyecto1.agregarDepartamento(dep1_2);
-
-        Departamento dep2_1 = new Departamento("Depa 201", "D201", 45000, true, "201", 2, 1, 100);
-        Departamento dep2_2 = new Departamento("Depa 202", "D202", 50000, true, "202", 3, 2, 130);
-        Departamento dep2_3 = new Departamento("Depa 203", "D203", 70000, true, "203", 4, 3, 170);
-        proyecto2.agregarDepartamento(dep2_1);
-        proyecto2.agregarDepartamento(dep2_2);
-        proyecto2.agregarDepartamento(dep2_3);
-
-        proyectoModel.agregarProyecto(proyecto1);
-        proyectoModel.agregarProyecto(proyecto2);
+        // Obtener la ruta del escritorio
+        String rutaEscritorio = Paths.get(System.getProperty("user.home"), "Desktop").toString();
 
         // Menú principal
         while (true) {
@@ -60,12 +53,15 @@ public class Main {
                 System.out.println((i + 1) + ". " + proyectos.get(i).getNombreProyecto() + " - " + proyectos.get(i).getUbicacion());
             }
 
-            System.out.print("Seleccione un proyecto por su número (o '0' para salir): ");
+            System.out.println("0. Mostrar todos los arrendatarios");
+            System.out.println("9. Generar reporte de arrendatarios por departamento");
+            System.out.print("Seleccione una opción: ");
             int opcionProyecto = Utils.leerEntero(scanner, "Opción: ");
 
-            if (opcionProyecto == 0) {
-                System.out.println("Saliendo...");
-                break;
+            if (opcionProyecto == 9) {
+                // Generar el reporte de arrendatarios
+                reporteArrendatarios.generarReportePorDepartamento(departamentoModel);
+                continue;
             }
 
             if (opcionProyecto < 1 || opcionProyecto > proyectos.size()) {

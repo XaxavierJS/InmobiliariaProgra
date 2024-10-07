@@ -5,71 +5,36 @@ import java.util.List;
 
 public class Departamento {
     private String nombreDepartamento;
-    private String codigo;
+    private String codigo;  // ID del departamento
     private int precio;
-    private Arrendatario arrendatario;
-    private Proyecto proyecto;
-    private boolean disponible;
-    private String numero;
-    private int habitaciones;
-    private int banos;
-    private int area;
-    private int demanda;
-
+    private String idProyecto;  // ID del proyecto
+    private boolean disponible;  // Estado del departamento
     private List<Arrendatario> arrendatarios;
 
-    public Departamento(String nombreDepartamento, String codigo, int precio, boolean disponible, String numero, int habitaciones, int banos, int area) {
+    public Departamento(String nombreDepartamento, String codigo, int precio, boolean disponible, String idProyecto) {
         this.nombreDepartamento = nombreDepartamento;
         this.codigo = codigo;
         this.precio = precio;
-        this.arrendatarios = new ArrayList<>(); // Inicializamos la lista de arrendatarios
+        this.idProyecto = idProyecto;
         this.disponible = disponible;
-        this.numero = numero;
-        this.habitaciones = habitaciones;
-        this.banos = banos;
-        this.area = area;
-        this.demanda = 0;
+        this.arrendatarios = new ArrayList<>();  // Inicializamos la lista de arrendatarios
     }
 
-    // Getters and Setters
-    public String getNombreDepartamento() {
-        return nombreDepartamento;
-    }
-
-    public void setNombreDepartamento(String nombreDepartamento) {
-        this.nombreDepartamento = nombreDepartamento;
-    }
-
-    public String getCodigo() {
+    // Getters y setters
+    public String getID() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public String getNombre() {
+        return nombreDepartamento;
     }
 
     public int getPrecio() {
         return precio;
     }
 
-    public void setPrecio(int precio) {
-        this.precio = precio;
-    }
-
-    public Arrendatario getArrendatario() {
-        return arrendatario;
-    }
-
-    public void setArrendatario(Arrendatario arrendatario) {
-        this.arrendatario = arrendatario;
-    }
-
-    public Proyecto getProyecto() {
-        return proyecto;
-    }
-
-    public void setProyecto(Proyecto proyecto) {
-        this.proyecto = proyecto;
+    public String getProyectoID() {
+        return idProyecto;
     }
 
     public boolean isDisponible() {
@@ -80,67 +45,30 @@ public class Departamento {
         this.disponible = disponible;
     }
 
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
-    public int getHabitaciones() {
-        return habitaciones;
-    }
-
-    public void setHabitaciones(int habitaciones) {
-        this.habitaciones = habitaciones;
-    }
-
-    public int getBanos() {
-        return banos;
-    }
-
-    public void setBanos(int banos) {
-        this.banos = banos;
-    }
-
-    public int getArea() {
-        return area;
-    }
-
-    public void setArea(int area) {
-        this.area = area;
-    }
-
-    public String getID() {
-        return codigo;
-    }
-
-    public void incrementarDemanda() {
-        this.demanda++;
-    }
-
-    public int getDemanda() {
-        return demanda;
-    }
-
-    public void calcularPrecio(int porcentaje) {
-        this.precio += this.precio * porcentaje / 100;
-    }
-
-    public boolean getEstado() {
-        return disponible;
-    }
-
-    public String getNombre() {
-        return nombreDepartamento;
-    }
-
     public void agregarArrendatario(Arrendatario arrendatario) {
-        this.arrendatario = arrendatario;
+        this.arrendatarios.add(arrendatario);
+    }
+
+    public void eliminarArrendatario(String nombreArrendatario) {
+        arrendatarios.removeIf(arrendatario -> arrendatario.getNombre().equalsIgnoreCase(nombreArrendatario));
     }
 
     public List<Arrendatario> getArrendatarios() {
-        return arrendatarios;  // Retornar la lista de arrendatarios
+        return arrendatarios;
+    }
+
+    public void setNombreDepartamento(String nuevoNombre) {
+        this.nombreDepartamento = nuevoNombre;
+    }
+
+    public Object getCodigo() {
+        return null;
+    }
+
+    public Arrendatario buscarArrendatarioPorNombre(String nombreArrendatario) {
+        return arrendatarios.stream()
+                .filter(arrendatario -> arrendatario.getNombre().equalsIgnoreCase(nombreArrendatario))
+                .findFirst()
+                .orElse(null);
     }
 }

@@ -2,70 +2,118 @@ package models;
 
 import entities.Departamento;
 import entities.Proyecto;
-import entities.Arrendatario;
-import Utils.Utils;
 
+import java.io.*;
 import java.util.*;
 
 public class DepartamentoModel {
     private List<Departamento> listaDepartamentos = new ArrayList<>();
+    private static final String RUTA_CSV = "C:\\Users\\javie\\OneDrive - mail.pucv.cl\\Documentos\\GitHub\\Inmobiliaria\\models\\departamentos.csv";
 
-    public void agregarDepartamento(Scanner scanner, Proyecto proyecto) {
-        // Crear y agregar un departamento al proyecto
-        System.out.print("Ingrese el nombre del departamento: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Ingrese el ID del departamento: ");
-        String id = scanner.nextLine();
-        int precio = Utils.leerEntero(scanner, "Ingrese el precio del departamento: ");
-        Departamento nuevoDepartamento = new Departamento(nombre, id, precio, true, "XXX", 3, 2, 100);
-        proyecto.agregarDepartamento(nuevoDepartamento);
-        System.out.println("Departamento agregado exitosamente al proyecto " + proyecto.getNombreProyecto());
+    // Método para cargar departamentos desde un archivo CSV y asociarlos a los proyectos correspondientes
+    public void cargarDepartamentosDesdeCSV(List<Proyecto> proyectos) {
+        String RUTA_CSV_DEPARTAMENTOS = "C:\\Users\\javie\\OneDrive - mail.pucv.cl\\Documentos\\GitHub\\Inmobiliaria\\models\\departamentos.csv";
+        try (BufferedReader br = new BufferedReader(new FileReader(RUTA_CSV_DEPARTAMENTOS))) {
+            String linea;
+            boolean esPrimeraLinea = true;
+            while ((linea = br.readLine()) != null) {
+                if (esPrimeraLinea) {
+                    esPrimeraLinea = false;
+                    continue;  // Saltar encabezado
+                }
+
+                // Saltar líneas vacías
+                if (linea.trim().isEmpty()) {
+                    continue;
+                }
+
+                // Eliminar comillas y procesar los datos
+                String[] datos = linea.replace("\"", "").split(",");
+                if (datos.length >= 4) {  // id_departamento, nombre, precio, id_proyecto
+                    String idDepartamento = datos[0].trim();  // Aquí eliminamos comillas y espacios
+                    String nombre = datos[1].trim();
+                    int precio = Integer.parseInt(datos[2].trim());
+                    String idProyecto = datos[3].trim();
+
+                    // Buscar el proyecto correspondiente por idProyecto
+                    Proyecto proyecto = proyectos.stream()
+                            .filter(p -> p.getId().equals(idProyecto))
+                            .findFirst()
+                            .orElse(null);
+
+                    if (proyecto != null) {
+                        // Crear el departamento y asociarlo al proyecto
+                        Departamento departamento = new Departamento(nombre, idDepartamento, precio, true, idProyecto);
+                        proyecto.agregarDepartamento(departamento);  // Asocia el departamento al proyecto
+                        listaDepartamentos.add(departamento);  // Agregar el departamento a la lista global
+                        System.out.println("Departamento " + departamento.getNombre() + " agregado al proyecto " + proyecto.getNombreProyecto());
+                    } else {
+                        System.out.println("No se encontró el proyecto con ID: " + idProyecto);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo CSV de departamentos: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Error al convertir un valor numérico en el archivo CSV: " + e.getMessage());
+        }
     }
 
-    public void eliminarDepartamento(Scanner scanner, Proyecto proyecto) {
-        // Eliminar un departamento del proyecto
-        System.out.print("Ingrese el ID del departamento a eliminar: ");
-        String idDepartamento = scanner.nextLine();
-        Departamento departamento = buscarDepartamentoPorID(proyecto.getDepartamentos(), idDepartamento);
-        if (departamento != null) {
-            proyecto.getDepartamentos().remove(departamento);
-            System.out.println("Departamento eliminado exitosamente.");
+
+    // Método para obtener departamentos por proyecto
+    public List<Departamento> obtenerDepartamentosPorProyecto(String idProyecto) {
+        List<Departamento> departamentosDelProyecto = new ArrayList<>();
+        for (Departamento departamento : listaDepartamentos) {
+            if (departamento.getProyectoID().equals(idProyecto)) {
+                departamentosDelProyecto.add(departamento);
+            }
+        }
+        return departamentosDelProyecto;
+    }
+
+    // Método para agregar departamento
+    public void agregarDepartamento(Departamento departamento) {
+        listaDepartamentos.add(departamento);
+        System.out.println("Departamento agregado correctamente.");
+    }
+
+    // Método para eliminar departamento
+    public void eliminarDepartamento(String id) {
+        Departamento departamentoAEliminar = buscarDepartamentoPorId(id);
+        if (departamentoAEliminar != null) {
+            listaDepartamentos.remove(departamentoAEliminar);
+            System.out.println("Departamento eliminado correctamente.");
         } else {
             System.out.println("Departamento no encontrado.");
         }
     }
 
-    public Departamento buscarDepartamentoPorID(List<Departamento> departamentos, String id) {
-        for (Departamento dep : departamentos) {
-            if (dep.getID().equalsIgnoreCase(id)) {
-                return dep;
+    // Método para buscar departamento por ID
+    public Departamento buscarDepartamentoPorId(String id) {
+        for (Departamento departamento : listaDepartamentos) {
+            System.out.println("Comparando departamento ID: '" + departamento.getID() + "' con ID buscado: '" + id + "'");
+            if (departamento.getID().equals(id)) {
+                return departamento;
             }
         }
+        System.out.println("Departamento con ID '" + id + "' no encontrado.");
         return null;
     }
 
-    // Métodos para gestionar arrendatarios...
-    public void agregarArrendatarioADepartamento(Scanner scanner, ArrendatarioModel arrendatarioModel, Departamento departamento) {
-        arrendatarioModel.agregarArrendatario(scanner);
-        Arrendatario arrendatario = arrendatarioModel.getUltimoArrendatario();
+
+
+    // Método para agregar arrendatario a un departamento
+    public void agregarArrendatarioADepartamento(Departamento departamento, entities.Arrendatario arrendatario) {
         departamento.agregarArrendatario(arrendatario);
-        System.out.println("Arrendatario agregado exitosamente al departamento.");
+        System.out.println("Arrendatario agregado al departamento.");
     }
 
-    public void eliminarArrendatario(Scanner scanner, Departamento departamento) {
-        System.out.print("Ingrese el nombre del arrendatario a eliminar: ");
-        String nombreArrendatario = scanner.nextLine();
-        Arrendatario arrendatarioAEliminar = departamento.getArrendatarios().stream()
-                .filter(a -> a.getNombre().equalsIgnoreCase(nombreArrendatario))
-                .findFirst()
-                .orElse(null);
-        if (arrendatarioAEliminar != null) {
-            departamento.getArrendatarios().remove(arrendatarioAEliminar);
-            System.out.println("Arrendatario eliminado exitosamente.");
-        } else {
-            System.out.println("Arrendatario no encontrado.");
-        }
+    // Método para eliminar arrendatario de un departamento
+    public void eliminarArrendatario(Departamento departamento, String nombreArrendatario) {
+        departamento.eliminarArrendatario(nombreArrendatario);
+        System.out.println("Arrendatario eliminado del departamento.");
     }
-
-    // Agrega otros métodos de modificación si es necesario...
+    public List<Departamento> obtenerTodosLosDepartamentos() {
+        return listaDepartamentos;
+    }
 }

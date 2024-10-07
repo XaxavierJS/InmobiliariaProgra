@@ -29,7 +29,7 @@ public class AgregarDepartamento extends JFrame{
                     int precio = Integer.parseInt(precioStr);
 
                     // Crear un nuevo departamento
-                    Departamento nuevoDepartamento = new Departamento(nombre, ID, precio, true, "N/A", 0, 0, 0);
+                    Departamento nuevoDepartamento = new Departamento(nombre, ID, precio, true, "N/A");
 
                     // Agregar el departamento a la lista de departamentos
                     departamentosList.add(nuevoDepartamento);

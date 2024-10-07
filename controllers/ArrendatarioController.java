@@ -1,6 +1,6 @@
-// controllers/ArrendatarioController.java
 package controllers;
 
+import entities.Arrendatario;
 import models.ArrendatarioModel;
 import Utils.Utils;
 
@@ -12,7 +12,9 @@ public class ArrendatarioController {
     public ArrendatarioController(ArrendatarioModel model) {
         this.arrendatarioModel = model;
     }
-
+    public void mostrarTodosArrendatarios() {
+        arrendatarioModel.mostrarArrendatarios();  // Llama al método para mostrar todos los arrendatarios
+    }
     public void gestionarArrendatarios(Scanner scanner) {
         while (true) {
             System.out.println("=== Gestión de Arrendatarios ===");
@@ -24,7 +26,18 @@ public class ArrendatarioController {
 
             switch (opcion) {
                 case 1:
-                    arrendatarioModel.agregarArrendatario(scanner);
+                    System.out.print("Ingrese el nombre del arrendatario: ");
+                    String nombre = scanner.nextLine();
+                    System.out.print("Ingrese el RUT del arrendatario: ");
+                    String rut = scanner.nextLine();
+                    System.out.print("Ingrese el correo del arrendatario: ");
+                    String correo = scanner.nextLine();
+                    System.out.print("Ingrese el teléfono del arrendatario: ");
+                    String telefono = scanner.nextLine();
+                    System.out.print("Ingrese el contrato del arrendatario: ");
+                    String contrato = scanner.nextLine();
+
+                    arrendatarioModel.agregarArrendatario(new Arrendatario(nombre, rut, correo, telefono, contrato));
                     break;
                 case 2:
                     arrendatarioModel.mostrarArrendatarios();

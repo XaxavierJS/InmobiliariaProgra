@@ -15,7 +15,7 @@ public class GestionarArrendatario extends JFrame{
 
     public GestionarArrendatario(Departamento departamento) {
         this.departamento = departamento;
-        setTitle("Gestionar Departamento: " + departamento.getNombreDepartamento());
+        setTitle("Gestionar Departamento: " + departamento.getNombre());
         setContentPane(panelGestionarArrendatario);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400, 300);

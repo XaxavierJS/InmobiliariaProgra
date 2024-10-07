@@ -1,35 +1,30 @@
-// entities/Proyecto.java
 package entities;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Proyecto {
+    private String id;
     private String nombreProyecto;
     private String ubicacion;
-    private List<Departamento> departamentos;
+    private List<Departamento> departamentos = new ArrayList<>();
 
+    // Constructor
     public Proyecto(String nombreProyecto, String ubicacion) {
         this.nombreProyecto = nombreProyecto;
         this.ubicacion = ubicacion;
-        this.departamentos = new ArrayList<>();
-    }
-    public void agregarDepartamento(Departamento departamento) {
-        this.departamentos.add(departamento);
     }
 
-    public void agregarDepartamento(List<Departamento> departamentos) {
-        this.departamentos.addAll(departamentos);
+    // Getter y setter para id
+    public String getId() {
+        return id;
     }
 
-    public List<Departamento> getDepartamentos() {
-        return departamentos;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setDepartamentos(List<Departamento> departamentos) {
-        this.departamentos = departamentos;
-    }
-
+    // Otros métodos y getters/setters
     public String getNombreProyecto() {
         return nombreProyecto;
     }
@@ -44,5 +39,13 @@ public class Proyecto {
 
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+    public void agregarDepartamento(Departamento departamento) {
+        this.departamentos.add(departamento);
+    }
+
+    public List<Departamento> getDepartamentos() {
+        return departamentos;
     }
 }
