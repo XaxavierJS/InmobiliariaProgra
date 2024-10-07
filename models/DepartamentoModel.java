@@ -2,6 +2,7 @@ package models;
 
 import entities.Departamento;
 import entities.Proyecto;
+import exceptions.DepartamentoException;
 
 import java.io.*;
 import java.util.*;
@@ -9,8 +10,9 @@ import java.util.*;
 public class DepartamentoModel {
     private List<Departamento> listaDepartamentos = new ArrayList<>();
     private static final String RUTA_CSV = "C:\\Users\\javie\\OneDrive - mail.pucv.cl\\Documentos\\GitHub\\Inmobiliaria\\models\\departamentos.csv";
+    private Map<String, Departamento> mapaDepartamentos = new HashMap<>();
 
-    // Método para cargar departamentos desde un archivo CSV y asociarlos a los proyectos correspondientes
+
     public void cargarDepartamentosDesdeCSV(List<Proyecto> proyectos) {
         String RUTA_CSV_DEPARTAMENTOS = "C:\\Users\\javie\\OneDrive - mail.pucv.cl\\Documentos\\GitHub\\Inmobiliaria\\models\\departamentos.csv";
         try (BufferedReader br = new BufferedReader(new FileReader(RUTA_CSV_DEPARTAMENTOS))) {
@@ -70,33 +72,50 @@ public class DepartamentoModel {
         }
         return departamentosDelProyecto;
     }
+    public Departamento buscarDepartamento(String id) {
+        return mapaDepartamentos.get(id);
+    }
+
+    // Método sobrecargado para buscar por precio umbral
+    public List<Departamento> buscarDepartamento(int precioMax) {
+        List<Departamento> resultado = new ArrayList<>();
+        for (Departamento departamento : listaDepartamentos) {
+            if (departamento.getPrecio() <= precioMax) {
+                resultado.add(departamento);
+            }
+        }
+        return resultado;
+    }
 
     // Método para agregar departamento
     public void agregarDepartamento(Departamento departamento) {
         listaDepartamentos.add(departamento);
+        mapaDepartamentos.put(departamento.getID(), departamento);
         System.out.println("Departamento agregado correctamente.");
     }
 
     // Método para eliminar departamento
-    public void eliminarDepartamento(String id) {
-        Departamento departamentoAEliminar = buscarDepartamentoPorId(id);
+    public void eliminarDepartamento(String id) throws DepartamentoException {
+        Departamento departamentoAEliminar = buscarDepartamento(id);
         if (departamentoAEliminar != null) {
             listaDepartamentos.remove(departamentoAEliminar);
+            mapaDepartamentos.remove(id);
             System.out.println("Departamento eliminado correctamente.");
         } else {
-            System.out.println("Departamento no encontrado.");
+            throw new DepartamentoException("Departamento con ID: " + id + " no encontrado.");
         }
     }
+
 
     // Método para buscar departamento por ID
     public Departamento buscarDepartamentoPorId(String id) {
         for (Departamento departamento : listaDepartamentos) {
-            System.out.println("Comparando departamento ID: '" + departamento.getID() + "' con ID buscado: '" + id + "'");
+            //System.out.println("Comparando departamento ID: '" + departamento.getID() + "' con ID buscado: '" + id + "'");
             if (departamento.getID().equals(id)) {
                 return departamento;
             }
         }
-        System.out.println("Departamento con ID '" + id + "' no encontrado.");
+        //System.out.println("Departamento con ID '" + id + "' no encontrado.");
         return null;
     }
 

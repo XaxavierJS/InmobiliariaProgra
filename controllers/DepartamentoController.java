@@ -1,5 +1,6 @@
 package controllers;
 
+import exceptions.DepartamentoException;
 import models.DepartamentoModel;
 import models.ArrendatarioModel;
 import entities.Departamento;
@@ -32,7 +33,7 @@ public class DepartamentoController {
         departamentoModel.agregarDepartamento(nuevoDepartamento);  // Guardar en el modelo
     }
 
-    public void eliminarDepartamento(Scanner scanner, Proyecto proyecto) {
+    public void eliminarDepartamento(Scanner scanner, Proyecto proyecto) throws DepartamentoException {
         System.out.print("Ingrese el ID del departamento a eliminar: ");
         String idDepartamento = scanner.nextLine();
         Departamento departamento = departamentoModel.buscarDepartamentoPorId(idDepartamento);
@@ -45,21 +46,23 @@ public class DepartamentoController {
         }
     }
 
-    public void modificarDepartamento(Scanner scanner, Proyecto proyecto) {
+    public void modificarDepartamento(Scanner scanner, Proyecto proyecto) throws DepartamentoException {
         System.out.print("Ingrese el ID del departamento a modificar: ");
         String idDepartamento = scanner.nextLine();
-        Departamento departamento = departamentoModel.buscarDepartamentoPorId(idDepartamento);
+        Departamento departamento = departamentoModel.buscarDepartamento(idDepartamento);
 
         if (departamento != null) {
             System.out.print("Ingrese el nuevo nombre del departamento: ");
             String nuevoNombre = scanner.nextLine();
             departamento.setNombreDepartamento(nuevoNombre);
+            System.out.print("Ingrese el nuevo precio del departamento: ");
+            int nuevoPrecio = Utils.leerEntero(scanner, "Nuevo Precio: ");
+            departamento.setPrecio(nuevoPrecio);
             System.out.println("Departamento modificado correctamente.");
         } else {
-            System.out.println("Departamento no encontrado.");
+            throw new DepartamentoException("Departamento no encontrado.");
         }
     }
-
     public Departamento seleccionarDepartamento(Scanner scanner, Proyecto proyecto) {
         System.out.println("Departamentos disponibles:");
 

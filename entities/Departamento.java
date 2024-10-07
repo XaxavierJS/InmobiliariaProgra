@@ -71,4 +71,9 @@ public class Departamento {
                 .findFirst()
                 .orElse(null);
     }
+
+    public void setPrecio(int nuevoPrecio) {
+        this.precio = nuevoPrecio;
+
+    }
 }

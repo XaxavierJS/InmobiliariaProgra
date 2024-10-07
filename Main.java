@@ -1,6 +1,7 @@
 import controllers.ArrendatarioController;
 import controllers.DepartamentoController;
 import controllers.ProyectoController;
+import exceptions.DepartamentoException;
 import models.ArrendatarioModel;
 import models.DepartamentoModel;
 import models.ProyectoModel;
@@ -13,7 +14,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DepartamentoException {
         Scanner scanner = new Scanner(System.in);
 
         // Modelos
@@ -53,7 +54,6 @@ public class Main {
                 System.out.println((i + 1) + ". " + proyectos.get(i).getNombreProyecto() + " - " + proyectos.get(i).getUbicacion());
             }
 
-            System.out.println("0. Mostrar todos los arrendatarios");
             System.out.println("9. Generar reporte de arrendatarios por departamento");
             System.out.print("Seleccione una opción: ");
             int opcionProyecto = Utils.leerEntero(scanner, "Opción: ");

@@ -9,13 +9,21 @@ public class Proyecto {
     private String ubicacion;
     private List<Departamento> departamentos = new ArrayList<>();
 
-    // Constructor
+    /**
+     * Constructor de la clase Proyecto.
+     * @param nombreProyecto Nombre del proyecto.
+     * @param ubicacion Ubicación del proyecto.
+     */
     public Proyecto(String nombreProyecto, String ubicacion) {
         this.nombreProyecto = nombreProyecto;
         this.ubicacion = ubicacion;
     }
 
-    // Getter y setter para id
+    // Getters y Setters con javadoc añadidos
+    /**
+     * Obtiene el ID del proyecto.
+     * @return ID del proyecto.
+     */
     public String getId() {
         return id;
     }
