@@ -27,30 +27,6 @@ public class MenuPrincipal extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
 
-        /*AgregarProyectoButton.addActionListener(e -> {
-            // Solicitar el nombre del proyecto
-            String nombreProyecto = JOptionPane.showInputDialog("Ingrese el nombre del nuevo proyecto:");
-
-            if (nombreProyecto != null && !nombreProyecto.isEmpty()) {
-                // Solicitar la ubicación del proyecto
-                String ubicacionProyecto = JOptionPane.showInputDialog("Ingrese la ubicación del nuevo proyecto:");
-
-                if (ubicacionProyecto != null && !ubicacionProyecto.isEmpty()) {
-                    // Crear un objeto Proyecto con el nombre y la ubicación
-                    Proyecto nuevoProyecto = new Proyecto(nombreProyecto, ubicacionProyecto);
-
-                    // Agregar el nombre del proyecto a la lista visual
-                    listModel.addElement("Nombre: " + nuevoProyecto.getNombreProyecto() + "     ||     Ubicación: " + nuevoProyecto.getUbicacion());
-                    // Aquí puedes agregar el proyecto a una lista de objetos Proyecto para futuras gestiones
-                    // proyectosList.add(nuevoProyecto);
-                } else {
-                    JOptionPane.showMessageDialog(null, "La ubicación del proyecto no puede estar vacía.");
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "El nombre del proyecto no puede estar vacío.");
-            }
-        });*/
-
         AgregarProyectoButton.addActionListener(e -> {
             String nombreProyecto = JOptionPane.showInputDialog("Ingrese el nombre del nuevo proyecto:");
             if (nombreProyecto != null && !nombreProyecto.isEmpty()) {
